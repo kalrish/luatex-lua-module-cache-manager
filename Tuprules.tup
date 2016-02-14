@@ -1,9 +1,0 @@
-.gitignore
-
-!lua53c = |> luac53 -s -o %o -- %f |> %B.lua53bc
-ifeq (@(ENGINE),lualatex)
-	!texluac = |> texluac -s -o %o -- %f |> %B.texluabc
-endif
-ifeq (@(ENGINE),luajitlatex)
-	!texluac = |> texluajitc -b %f %o |> %B.texluabc
-endif

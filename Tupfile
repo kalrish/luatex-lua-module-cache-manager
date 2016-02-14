@@ -1,6 +1,0 @@
-include_rules
-
-: lua-module-cache-manager.lua |> !texluac |>
-
-: tex-engine-parameters.lua |> !lua53c |>
-: tex-runner.lua |> !lua53c |>

@@ -256,13 +256,14 @@ local function luaserialize_cache()
 	-- Tables are more efficient than string concatenation
 	
 	local t = { "return{" }
-	local n = 1
+	-- We reuse `i` from option parsing
+	i = 1
 	
 	for module_name, module_loader_bytecode in pairs(cache) do
-		n = n + 1
-		t[n] = "["
+		i = i + 1
+		t[i] = "["
 		
-		n = n + 1
+		i = i + 1
 		--[[
 			From the [Lua 5.2 Reference Manual](http://www.lua.org/manual/5.2/manual.html#pdf-string.format):
 			
@@ -270,21 +271,21 @@ local function luaserialize_cache()
 			
 			I've seen module names that contain "dangerous" characters. Better safe than sorry.
 		]]
-		t[n] = string_format("%q",module_name)
+		t[i] = string_format("%q",module_name)
 		
-		n = n + 1
-		t[n] = "]="
+		i = i + 1
+		t[i] = "]="
 		
-		n = n + 1
+		i = i + 1
 		-- See above for the %q. Here it's not just being safe; it's necessary.
-		t[n] = string_format("%q",module_loader_bytecode)
+		t[i] = string_format("%q",module_loader_bytecode)
 		
-		n = n + 1
-		t[n] = ","
+		i = i + 1
+		t[i] = ","
 	end
 	
-	n = n + 1
-	t[n] = "}"
+	i = i + 1
+	t[i] = "}"
 	
 	return t
 end
@@ -310,10 +311,10 @@ local function update_cache_file()
 		local stub
 		
 		if cache_mode == 'b' then
-			-- Instead of concatenating the strings of the table (either manually or with `table.concat`), we let `load` do that for us by using an index and a small closure. This shall buy us some efficiency (those strings are really big)
+			-- Instead of concatenating the strings of the table (either manually or with `table.concat`), we let `load` do that for us by using an index (`i`, you remember it from option parsing? We reuse it) and a small closure. This shall buy us some efficiency (those strings are really big)
 			-- Using `stub` here to save `load`'s first return value, which is the compiled chunk as a function on success or `nil` on error
-			local n = 0
-			stub, err_msg = load( function() n = n + 1 ; return cache_serialized_lua[n] end , "string" , 't' )
+			i = 0
+			stub, err_msg = load( function() i = i + 1 ; return cache_serialized_lua[i] end , "string" , 't' )
 			if stub then
 				-- `stub` is the compiled chunk as a function. Now it's a matter of dumping it
 				

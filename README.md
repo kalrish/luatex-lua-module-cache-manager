@@ -22,6 +22,10 @@ Keep in mind, though, that the Lua initialization script is run *every time*. Yo
     $  texluajitc -b lua-module-cache-manager.lua lua-module-cache-manager.texluabc
     ```
 
+Then:
+
+    $  lualatex --interaction=nonstopmode --lua=lua-module-cache-manager.texluabc -- main.tex
+
 Lua initialization scripts have access to the arguments with which the LuaTeX engine was invoked. This script handles a few options:
 
 option | type | description

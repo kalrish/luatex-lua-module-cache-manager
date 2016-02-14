@@ -6,13 +6,21 @@ Lua module cache manager for LuaTeX and cousins
 
 ## How to use it? ##
 LuaTeX engines understand the `--lua` option. Pass the script path as its argument:
-> $  lualatex _--interaction=nonstopmode_ **--lua=lua-module-cache-manager.lua** _-- main.tex_
+
+    $  lualatex --interaction=nonstopmode --lua=lua-module-cache-manager.lua -- main.tex
 
 Keep in mind, though, that the Lua initialization script is run *every time*. You should consider byte-compiling it itself; the command depends on the engine in use:
-> $  For LuaTeX:<br>
-> $  texluac -s -o lua-module-cache-manager.texluabc -- lua-module-cache-manager.lua<br>
-> $  For LuaJITTeX:<br>
-> $  texluajitc -b lua-module-cache-manager.lua lua-module-cache-manager.texluabc
+
+* For LuaTeX:
+
+    ```
+    $  texluac -s -o lua-module-cache-manager.texluabc -- lua-module-cache-manager.lua
+    ```
+* For LuaJITTeX:
+
+    ```
+    $  texluajitc -b lua-module-cache-manager.lua lua-module-cache-manager.texluabc
+    ```
 
 Lua initialization scripts have access to the arguments with which the LuaTeX engine was invoked. This script handles a few options:
 
@@ -25,4 +33,4 @@ option | type | description
 I have tested it on LuaTeX and LuaJITTeX, both version 0.80, revision 5238, as packaged by TeX Live, on Windows.
 
 ## Does it really help? ##
-A bit, ja, although I haven't properly benchmarked it. It can be more than half a second in my machine.
+A bit, ja, although I haven't properly benchmarked it. It can be more than half a second in my machine, which is nice for small documents that are compiled often.

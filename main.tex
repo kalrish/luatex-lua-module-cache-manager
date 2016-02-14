@@ -1,0 +1,24 @@
+\documentclass{article}
+
+\usepackage{fontspec}
+%\usepackage{microtype}
+\usepackage{polyglossia}
+
+
+\setmainfont{Latin Modern Roman}
+
+\setdefaultlanguage{english}
+\setotherlanguage{spanish}
+\setotherlanguage{german}
+
+
+\begin{document}
+	\section{Introduction}
+	Just a test document. I should really learn about the lipsum package, or however it is called, because writing this surely makes me seem stupid. I actually feel stupid. It feels like talking to a mirror.
+	
+	\section{\textspanish{En español}}
+	\textspanish{El veloz murciélago hindú trató de picar al paupérrimo pingüino antártico.}
+	
+	\section{\textspanish{En \mbox{alemán}}}
+	\textgerman{Ich lerne \mbox{Deutsch}.} Just trying to make this a somewhat complex document by using several languages.
+\end{document}

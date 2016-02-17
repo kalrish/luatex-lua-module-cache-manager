@@ -16,9 +16,6 @@ LUA_MODULE_CACHE_FILE_EXTENSION_b := lmc
 LUA_MODULE_CACHE_FILE_EXTENSION := $(LUA_MODULE_CACHE_FILE_EXTENSION_$(LUA_MODULE_CACHE_MODE))
 
 
-%.lua53bc : %.lua
-	luac53 -s -o $@ -- $^
-
 %.texluabc : %.lua
 ifeq ($(ENGINE),lualatex)
 	texluac -s -o $@ -- $^
@@ -32,4 +29,4 @@ show: lua-module-cache-manager.texluabc main.tex
 
 
 clean:
-	rm -f -- *.lua53bc *.texluabc main.log main.fls main.aux main.lua main.lmc main.pdf
+	rm -f -- *.texluabc main.log main.fls main.aux main.lua main.lmc main.pdf

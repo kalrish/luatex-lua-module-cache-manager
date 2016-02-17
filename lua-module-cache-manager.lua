@@ -7,6 +7,7 @@ local string_match = string.match
 local string_dump = string.dump
 local string_format = string.format
 local texio_write = texio.write
+local texio_write_nl = texio.write_nl
 --[[
 	Up to Lua 5.1, it was package.loaders. From Lua 5.2 onward, package.searchers.
 	
@@ -19,6 +20,15 @@ local package_searchers = package.searchers or package.loaders
 	Base logging function.
 ]]
 local function log_base( log_id , ... )
+	--[[
+		Make sure that we start at the beginning of a new line. From the LuaTeX manual, section 7.16.1.2 (_`texio.write_nl`_):
+		
+			This function behaves like `texio.write`, but make sure that the given strings will appear at the beginning of a new line. You can pass a single empty string if you only want to move to the next line.
+		
+		FIXME: it adds an additional (unwanted) line break in some cases.
+	]]
+	texio_write_nl( "" )
+	
 	texio_write( log_id , ": " )
 	texio_write( ... )
 	texio_write( "\n" )

@@ -5,7 +5,8 @@
 # Configuration - touch these
 ENGINE := lualatex
 #ENGINE := luajitlatex
-ENGINE_ARGUMENTS := --interaction=nonstopmode --halt-on-error --file-line-error --recorder# --jiton
+# The recorder feature (`--recorder`) seems to cause segfaults (they happen at `loadfile` time, when the cache file is loaded). See [issue #2](https://github.com/kalrish/luatex-lua-module-cache-manager/issues/2), reported by Henry So
+ENGINE_ARGUMENTS := --interaction=nonstopmode --halt-on-error --file-line-error# --recorder# --jiton
 LUA_MODULE_CACHE_MODE := b
 OUTPUT_FORMAT := pdf
 

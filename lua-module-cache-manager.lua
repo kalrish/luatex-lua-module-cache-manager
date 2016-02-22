@@ -3,6 +3,8 @@
 ]]
 
 
+local load = load
+local type = type
 local string_match = string.match
 local string_dump = string.dump
 local string_format = string.format

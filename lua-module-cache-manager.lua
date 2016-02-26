@@ -18,10 +18,13 @@ local texio_write_nl = texio.write_nl
 local package_searchers = package.searchers or package.loaders
 
 
+-- Prepended to every logging message
+local logging_identification = "lua-module-cache-manager"
+
 --[[
 	Base logging function.
 ]]
-local function log_base( log_id , ... )
+local function log_base( log_type_id , ... )
 	--[[
 		Make sure that we start at the beginning of a new line. From the LuaTeX manual, section 7.16.1.2 (_`texio.write_nl`_):
 		
@@ -31,7 +34,7 @@ local function log_base( log_id , ... )
 	]]
 	texio_write_nl( "" )
 	
-	texio_write( log_id , ": " )
+	texio_write( logging_identification , ": " , log_type_id , ": " )
 	texio_write( ... )
 	
 	texio_write_nl( "" )

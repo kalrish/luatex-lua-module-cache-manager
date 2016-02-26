@@ -33,7 +33,8 @@ local function log_base( log_id , ... )
 	
 	texio_write( log_id , ": " )
 	texio_write( ... )
-	texio_write( "\n" )
+	
+	texio_write_nl( "" )
 end
 
 local function log_info( ... )

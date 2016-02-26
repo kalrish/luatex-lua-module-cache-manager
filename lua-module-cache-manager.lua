@@ -24,7 +24,7 @@ local logging_identification = "lua-module-cache-manager"
 --[[
 	Base logging function.
 ]]
-local function log_base( log_type_id , ... )
+local function log_base( target , log_type_id , ... )
 	--[[
 		Make sure that we start at the beginning of a new line. From the LuaTeX manual, section 7.16.1.2 (_`texio.write_nl`_):
 		
@@ -32,12 +32,12 @@ local function log_base( log_type_id , ... )
 		
 		FIXME: it adds an additional (unwanted) line break in some cases.
 	]]
-	texio_write_nl( "" )
+	texio_write_nl( target , "" )
 	
-	texio_write( logging_identification , ": " , log_type_id , ": " )
-	texio_write( ... )
+	texio_write( target , logging_identification , ": " , log_type_id , ": " )
+	texio_write( target , ... )
 	
-	texio_write_nl( "" )
+	texio_write_nl( target , "" )
 end
 
 local function log_info( ... )

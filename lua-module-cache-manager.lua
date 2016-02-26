@@ -40,12 +40,16 @@ local function log_base( target , log_type_id , ... )
 	texio_write_nl( target , "" )
 end
 
+-- See the description at section 7.16.1.1 (_`texio.write`_) of the LuaTeX manual
+local log_target_log = 'log'
+local log_target_term_and_log = 'term and log'
+
 local function log_info( ... )
-	log_base( "info" , ... )
+	log_base( log_target_log , "info" , ... )
 end
 
 local function log_error( ... )
-	log_base( "error" , ... )
+	log_base( log_target_term_and_log , "error" , ... )
 end
 
 

@@ -144,23 +144,6 @@ local cache_file_needs_to_be_updated = false
 
 
 --[[
-	From the [Lua 5.2 Reference Manual](http://www.lua.org/manual/5.2/manual.html#pdf-package.searchers):
-	
-		Each entry in this table [in Lua 5.2, `package.searchers`; `package.loaders` in Lua 5.1] is a _searcher function_. When looking for a module, `require` calls each of these searchers in ascending order, (…).
-		
-		1. The first searcher simply looks for a loader in the `package.preload` table.
-		
-		2. The second searcher looks for a loader as a Lua library, (…).
-		
-		3. The third searcher looks for a loader as a C library, (…).
-		
-		4. The fourth searcher tries an all-in-one loader.
-	
-	(1) is there to offer preloaded packages, which are not our business; we shall not change it. (2) is the one that loads Lua source files, and, therefore, we must come before it so as to load the required Lua modules from our cache. `table.insert` does the job for us and avoids us having to fiddle with the table.
-]]
-
-
---[[
 	An auxiliary function that hooks into (read: appends code to) a searcher function so as to add the module loader that it returns to the cache.
 ]]
 local function hook_into_loader( searcher_index )
@@ -258,7 +241,19 @@ local function try_to_load_module_from_cache( module_name )
 end
 
 --[[
-	The first searcher is there to avoid loading the same module twice; we shall not change it. The second is the one that loads Lua source files (whether it uses kpathsea or not), and, therefore, we must come before it so as to load the required Lua modules from the cache. `table.insert` does the job for us and avoids us having to fiddle with the table.
+	From the [Lua 5.2 Reference Manual](http://www.lua.org/manual/5.2/manual.html#pdf-package.searchers):
+	
+		Each entry in this table [in Lua 5.2, `package.searchers`; `package.loaders` in Lua 5.1] is a _searcher function_. When looking for a module, `require` calls each of these searchers in ascending order, (…).
+		
+		1. The first searcher simply looks for a loader in the `package.preload` table.
+		
+		2. The second searcher looks for a loader as a Lua library, (…).
+		
+		3. The third searcher looks for a loader as a C library, (…).
+		
+		4. The fourth searcher tries an all-in-one loader.
+	
+	(1) is there to offer preloaded packages, which are not our business; we shall not change it. (2) is the one that loads Lua source files (whether guided or not by kpathsea), and, therefore, we must come before it so as to load the required Lua modules from the cache. `table.insert` does the job for us and avoids us having to fiddle with the table.
 ]]
 table.insert( package_searchers , 2 , try_to_load_module_from_cache )
 

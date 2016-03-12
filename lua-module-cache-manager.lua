@@ -156,7 +156,7 @@ local cache_file_needs_to_be_updated = false
 		
 		4. The fourth searcher tries an all-in-one loader.
 	
-	(1) is there to avoid loading the same module twice; we shall not change it. (2) is the one that loads Lua source files, and, therefore, we must come before it so as to load the required Lua modules from our cache. `table.insert` does the job for us and avoids us having to fiddle with the table.
+	(1) is there to offer preloaded packages, which are not our business; we shall not change it. (2) is the one that loads Lua source files, and, therefore, we must come before it so as to load the required Lua modules from our cache. `table.insert` does the job for us and avoids us having to fiddle with the table.
 ]]
 
 

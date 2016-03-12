@@ -3,6 +3,7 @@
 ]]
 
 
+local next = next
 local load = load
 local type = type
 local string_match = string.match
@@ -274,7 +275,8 @@ local function luaserialize_cache()
 	-- We reuse `i` from option parsing
 	i = 1
 	
-	for module_name, module_loader_bytecode in pairs(cache) do
+	local module_name, module_loader_bytecode = next(cache)
+	while module_name do
 		i = i + 1
 		t[i] = "["
 		
@@ -297,6 +299,8 @@ local function luaserialize_cache()
 		
 		i = i + 1
 		t[i] = ","
+		
+		module_name, module_loader_bytecode = next(cache,module_name)
 	end
 	
 	i = i + 1

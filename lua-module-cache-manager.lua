@@ -13,9 +13,9 @@ local string_format = string.format
 local texio_write = texio.write
 local texio_write_nl = texio.write_nl
 --[[
-	Up to Lua 5.1, it was package.loaders. From Lua 5.2 onward, package.searchers.
+	Up to Lua 5.1, it was `package.loaders`; from Lua 5.2 onwards, it's `package.searchers`.
 	
-	As of this writing, LuaTeX implements Lua 5.2 and thus understands package.searchers. LuaJITTeX, on the other hand, is stuck at 5.1, so we need to take care of the naming mismatch.
+	As of this writing, LuaTeX implements Lua 5.2 and thus offers `package.searchers`. LuaJITTeX, on the other hand, is stuck at 5.1, so we have to take care of the naming mismatch.
 ]]
 local package_searchers = package.searchers or package.loaders
 

@@ -315,7 +315,7 @@ end
 local function update_cache_file()
 	fd_chunk_or_id, err_msg = io.open( cache_file_path , 'wb' )
 	if fd_chunk_or_id then
-		log_info( "Lua module cache file (path: `" , cache_file_path , "') opened successfully for writing" )
+		log_info( "Lua module cache file (path: `" , cache_file_path , "') successfully opened for writing" )
 		
 		-- Grab an ASCII-serialized version of the cache
 		local cache_serialized_lua = luaserialize_cache()

@@ -4,12 +4,10 @@
 
 
 -- Cache variables (including functions) that are referred to more than once in locals, since they are faster to access than globals in the Lua implementations of LuaTeX and cousins.
-local next = next
 local load = load
 local type = type
 local string_match = string.match
 local string_dump = string.dump
-local string_format = string.format
 local texio_write = texio.write
 local texio_write_nl = texio.write_nl
 --[[
@@ -273,6 +271,9 @@ local function luaserialize_cache()
 	local t = { "return{" }
 	-- We reuse `i` from option parsing
 	i = 1
+	
+	local next = next
+	local string_format = string.format
 	
 	local module_name, module_loader_bytecode = next(cache)
 	while module_name do

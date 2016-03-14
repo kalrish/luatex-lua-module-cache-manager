@@ -267,11 +267,9 @@ local err_msg
 
 
 --[[
-	Serializes the internal Lua module cache as ASCII Lua source code that may be compiled or loaded.
+	Serializes the internal Lua module cache as ASCII Lua source code that may be compiled or loaded. The code is returned as a table of consecutive strings instead of a single string, as table iteration is faster than string concatenation and some users may be able to work with the table; those who need the whole string can concat the pieces in a single pass (`table.concat`), which is faster than per-iteration.
 ]]
 local function luaserialize_cache()
-	-- Tables are more efficient than string concatenation
-	
 	local t = { "return{" }
 	-- We reuse `i` from option parsing
 	i = 1

@@ -20,6 +20,7 @@ LUA_MODULE_CACHE_FILE_EXTENSION_b := lmc
 LUA_MODULE_CACHE_FILE_EXTENSION := $(LUA_MODULE_CACHE_FILE_EXTENSION_$(LUA_MODULE_CACHE_MODE))
 
 
+# It might be needed to adjust this rule if the engine is neither LuaTeX nor LuaJITTeX
 lua-module-cache-manager.texluabc: lua-module-cache-manager.lua
 ifeq ($(ENGINE),lualatex)
 	texluac -s -o $@ -- $^

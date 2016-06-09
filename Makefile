@@ -3,10 +3,11 @@
 
 
 # Configuration - touch these
+# a LuaTeX-like engine, e.g. luatex or luajittex
 ENGINE := lualatex
-#ENGINE := luajitlatex
 # The recorder feature (`--recorder`) seems to cause segfaults (they happen at `loadfile` time, when the cache file is loaded). See [issue #2](https://github.com/kalrish/luatex-lua-module-cache-manager/issues/2), reported by Henry So
 ENGINE_ARGUMENTS := --interaction=nonstopmode --halt-on-error --file-line-error# --recorder# --jiton
+# may be 'b' (bytecode) or 't' (ASCII Lua source)
 LUA_MODULE_CACHE_MODE := b
 # Arguments meant for the Lua module cache manager
 EXTRA_LUA_MODULE_CACHE_MANAGER_ARGUMENTS := --lua-module-cache-manager-verbose

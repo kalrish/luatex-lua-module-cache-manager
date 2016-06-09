@@ -398,7 +398,7 @@ end
 -- Caveat about using this callback and other options: see [this TeX.StackExchange question](http://tex.stackexchange.com/questions/292559/callback-to-be-run-at-the-end-of-the-job)
 fd_chunk_or_id, err_msg = callback.register( "finish_pdffile" , to_be_run_at_end_of_run )
 if fd_chunk_or_id then
-	log_info( "callback successfully registered" )
+	log_info( "callback registered successfully" )
 else
 	log_error( "couldn't register callback: " , err_msg )
 	

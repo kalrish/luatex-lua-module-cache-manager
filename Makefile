@@ -7,7 +7,7 @@
 ENGINE := luatex
 #  the format to use - do set one only if you want or need to override the default (see below)
 #FORMAT := 
-#  On LuaTeX <0.89, the recorder feature (`--recorder`) causes segfaults (they happen at `loadfile` time, when the cache file is loaded); see [issue #2](https://github.com/kalrish/luatex-lua-module-cache-manager/issues/2), reported by Henry So
+#  note: on LuaTeX <0.89, the recorder feature (`--recorder`) causes segfaults; see [issue #2](https://github.com/kalrish/luatex-lua-module-cache-manager/issues/2), reported by Henry So
 ENGINE_ARGUMENTS := --interaction=nonstopmode --halt-on-error --file-line-error --recorder# --jiton
 #  may be 'b' (bytecode) or 't' (ASCII Lua source)
 LUA_MODULE_CACHE_MODE := b

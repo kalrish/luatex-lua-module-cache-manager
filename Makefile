@@ -11,7 +11,7 @@ ENGINE := luatex
 ENGINE_ARGUMENTS := --interaction=nonstopmode --halt-on-error --file-line-error --recorder# --jiton
 #  may be 'b' (bytecode) or 't' (ASCII Lua source)
 LUA_MODULE_CACHE_MODE := b
-#  Arguments meant for the Lua module cache manager
+#  arguments meant for the Lua module cache manager
 EXTRA_LUA_MODULE_CACHE_MANAGER_ARGUMENTS := --lua-module-cache-manager-verbose
 OUTPUT_FORMAT := pdf
 

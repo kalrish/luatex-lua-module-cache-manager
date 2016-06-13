@@ -44,7 +44,11 @@ Pass them to the script as if they were normal LuaTeX options:
 ## Requirements ##
 * A "new enough" version of LuaTeX/LuaJITTeX.
 
- I have tested it on both, version 0.80, revision 5238, as packaged by TeX Live on Windows.
+ It has been tested on:
+    -  LuaTeX 0.80, revision 5238 by TeX Live 2015 on Windows.
+    -  LuaJITTeX 0.80, revision 5238 by TeX Live 2015 on Windows.
+    -  LuaTeX 0.95 by TeX Live 2016 on Windows.
+    -  LuaJITTeX 0.95 by TeX Live 2016 on Windows.
 * A recent enough installation of the LuaLaTeX infrastructure.
 
  In particular, the LaTeX kernel should include LuaTeX support and the [`luatexbase`](http://www.ctan.org/pkg/luatexbase) package should reflect this change. This all panned out around October 2015. See [issue #1](https://github.com/kalrish/luatex-lua-module-cache-manager/issues/1) for a description of the problem you would face in case you didn't meet this requirement and a workaround by [Henry So](https://github.com/henryso).

@@ -44,8 +44,9 @@ end
 local log_target_log = 'log'
 local log_target_term_and_log = 'term and log'
 
+local log_target_info
 local function log_info( ... )
-	log_base( log_target_log , "info" , ... )
+	log_base( log_target_info , "info" , ... )
 end
 
 local function log_error( ... )
@@ -125,6 +126,24 @@ if not cache_file_path then
 		
 		cache_file_path = "lua-module-cache.lua"
 	end
+end
+
+-- Reset the counter
+i = 1
+
+--[[
+	Logging verbosity.
+]]
+while arg[i] ~= nil and log_target_info == nil do
+	if arg[i] == "--lua-module-cache-manager-verbose" then
+		log_target_info = log_target_term_and_log
+	end
+	
+	i = i + 1
+end
+if log_target_info == nil then
+	-- The default is that logging messages are logged only to the log file (not the terminal)
+	log_target_info = log_target_log
 end
 
 -- Exit inmediatly if there were any problems encountered during option parsing

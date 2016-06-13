@@ -35,10 +35,11 @@ option | type | description
 ------------ | ------------- | ------------
 **--lua-module-cache-mode**=**b**\|t | optional | Cache format:<table><tr><td>**t**</td><td>ASCII Lua source</td></tr><tr><td>**b**</td><td>Lua bytecode. Should be a bit faster</td></tr></table>
 **--lua-module-cache-file**=_/path/to/the/cache/file.extension_ | optional | Its default value depends on the cache format:<table><tr><td>**t**</td><td>_lua-module-cache.lua_</td></tr><tr><td>**b**</td><td>_lua-module-cache.texluabc_</td></tr></table>
+**--lua-module-cache-manager-verbose** | optional | Whether merely informational logging messages should be outputted to the terminal (and not only to the log file).
 
 Pass them to the script as if they were normal LuaTeX options:
 
-    $  lualatex --interaction=nonstopmode --lua=lua-module-cache-manager.lua --lua-module-cache-file=main.lmc --lua-module-cache-mode=b -- main.tex
+    $  lualatex --interaction=nonstopmode --lua=lua-module-cache-manager.lua --lua-module-cache-file=main.lmc --lua-module-cache-mode=b --lua-module-cache-manager-verbose -- main.tex
 
 ## Requirements ##
 * A "new enough" version of LuaTeX/LuaJITTeX.

@@ -26,7 +26,7 @@ local logging_identification = "lua-module-cache-manager"
 ]]
 local function log_base( target , log_type_id , ... )
 	--[[
-		Make sure that we start at the beginning of a new line. From the LuaTeX manual, section 7.16.1.2 (_`texio.write_nl`_):
+		Make sure that we start at the beginning of a new line. From the LuaTeX manual, section 9.5.1.2 (_`texio.write_nl`_):
 		
 			This function behaves like `texio.write`, but make sure that the given strings will appear at the beginning of a new line. You can pass a single empty string if you only want to move to the next line.
 		
@@ -40,7 +40,7 @@ local function log_base( target , log_type_id , ... )
 	texio_write_nl( target , "" )
 end
 
--- See the description at section 7.16.1.1 (_`texio.write`_) of the LuaTeX manual
+-- See the description at section 9.5.1.1 (_`texio.write`_) of the LuaTeX manual
 local log_target_log = 'log'
 local log_target_term_and_log = 'term and log'
 
@@ -54,7 +54,7 @@ end
 
 
 --[[
-	Now comes option parsing. Section 2.1.3 (_Other commandline processing_) of the LuaTeX manual:
+	Now comes option parsing. Section 3.1.3 (_Other commandline processing_) of the LuaTeX manual:
 	
 		From within the [Lua initialization] script, the entire commandline is available in the Lua table `arg`, beginning with `arg[0]`, containing the name of the executable.
 	
@@ -103,7 +103,7 @@ if not cache_file_path then
 	--[[
 		Defaults are evil, IMO, but I'll concede this one for the sake of making this script easier to use.
 		
-		It could be improved by using the jobname: `cache_file_path=$(jobname).lmc` (where 'lmc' is a random extension that stands for "Lua Module Cache"). However, the jobname is not available yet (we are at the Lua initialization script stage; see section 2.1.3 of the LuaTeX manual (_Other commandline processing_)). We could be 'smart' and peek at the arguments in the `arg` table to try to guess it, but the rules for computing the jobname are complex and we would not achieve it.
+		It could be improved by using the jobname: `cache_file_path=$(jobname).lmc` (where 'lmc' is a random extension that stands for "Lua Module Cache"). However, the jobname is not available yet (we are at the Lua initialization script stage; see section 3.1.3 of the LuaTeX manual (_Other commandline processing_)). We could be 'smart' and peek at the arguments in the `arg` table to try to guess it, but the rules for computing the jobname are complex and we would not achieve it.
 		
 		Therefore, be warned that you must explicitly set the Lua module cache file path if:
 		 ·  you have several jobs in the same directory; and either:
@@ -187,7 +187,7 @@ local function hook_into_loader( searcher_index )
 			--[[
 				Remember that our cache associated each module's name with its loader's bytecode; we dump the bytecode now
 				
-				We pass `true` as the second argument to `string.dump` to tell it to strip the symbols from the dumped bytecode. From the LuaTeX manual, section 2.2 (_LUA behaviour_):
+				We pass `true` as the second argument to `string.dump` to tell it to strip the symbols from the dumped bytecode. From the LuaTeX manual, section 3.2 (_LUA behaviour_):
 				
 					There is also a two-argument form of `string.dump()`. The second argument is a boolean which,
 if true, strips the symbols from the dumped data. This matches an extension made in `luajit`.
@@ -202,7 +202,7 @@ if true, strips the symbols from the dumped data. This matches an extension made
 end
 
 --[[
-	From the LuaTeX manual, section 2.2 (_LUA behaviour_):
+	From the LuaTeX manual, section 3.2 (_LUA behaviour_):
 	
 		LuaTEX is able to use the kpathsea library to find `require()`d modules. For this purpose, `package.searchers[2]` is replaced by a different loader function, that decides at runtime whether to use kpathsea or the built-in core Lua function. It uses kpathsea when that is already initialized at that point in time, otherwise it reverts to using the normal `package.path` loader.
 	

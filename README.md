@@ -14,12 +14,12 @@ LuaTeX engines understand the `--lua` option. Pass the script path as its argume
 
 Keep in mind, though, that the Lua initialization script is run *every time*. You should consider byte-compiling it itself; the command depends on the engine in use:
 
-* For LuaTeX:
+* LuaTeX:
 
     ```
     $  texluac -s -o lua-module-cache-manager.texluabc -- lua-module-cache-manager.lua
     ```
-* For LuaJITTeX:
+* LuaJITTeX:
 
     ```
     $  texluajitc -b lua-module-cache-manager.lua lua-module-cache-manager.texluabc

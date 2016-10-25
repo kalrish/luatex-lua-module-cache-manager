@@ -19,7 +19,7 @@ local package_searchers = package.searchers or package.loaders
 
 
 -- Prepended to every logging message
-local logging_identification = "lua-module-cache-manager"
+local logging_identification = "Lua module cache manager"
 
 --[[
 	Base logging function.

@@ -33,10 +33,8 @@ local function log_base( target , log_type_id , ... )
 		FIXME: it adds an additional (unwanted) line break in some cases.
 	]]
 	texio_write_nl( target , logging_identification )
-	
 	texio_write( target , ": " , log_type_id , ": " )
 	texio_write( target , ... )
-	
 	texio_write_nl( target , "" )
 end
 

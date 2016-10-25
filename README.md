@@ -10,7 +10,7 @@ A bit, ja, although I haven't properly benchmarked it. It can be more than half 
 ## How to use it? ##
 LuaTeX engines understand the `--lua` option. Pass the script path as its argument:
 
-    $  lualatex --lua=luamcm.lua -- main.tex
+    $  lualatex --lua=luamcm.lua main.tex
 
 Keep in mind, though, that the Lua initialization script is run *every time*. You should consider byte-compiling it itself; the command depends on the engine in use:
 
@@ -27,7 +27,7 @@ Keep in mind, though, that the Lua initialization script is run *every time*. Yo
 
 Then:
 
-    $  lualatex --lua=luamcm.texluabc -- main.tex
+    $  lualatex --lua=luamcm.texluabc main.tex
 
 Lua initialization scripts have access to the arguments with which the LuaTeX engine was invoked. This script handles a few options:
 
@@ -39,7 +39,7 @@ option | type | description
 
 Pass them to the script as if they were normal LuaTeX options:
 
-    $  lualatex --lua=luamcm.lua --lua-module-cache-file=main.lmc --lua-module-cache-mode=b --lua-module-cache-manager-verbose -- main.tex
+    $  lualatex --lua=luamcm.lua --lua-module-cache-file=main.lmc --lua-module-cache-mode=b --lua-module-cache-manager-verbose main.tex
 
 ## Requirements ##
 * A "new enough" version of LuaTeX/LuaJITTeX.

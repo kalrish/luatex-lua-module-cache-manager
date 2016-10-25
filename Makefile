@@ -34,7 +34,7 @@ endif
 
 
 # It might be needed to adjust this rule if the engine is neither LuaTeX nor LuaJITTeX
-lua-module-cache-manager.texluabc: lua-module-cache-manager.lua
+luamcm.texluabc: luamcm.lua
 ifeq ($(ENGINE),luatex)
 	texluac -s -o $@ -- $^
 endif
@@ -42,8 +42,8 @@ ifeq ($(ENGINE),luajittex)
 	texluajitc -b $^ $@
 endif
 
-show: lua-module-cache-manager.texluabc main.tex
-	$(ENGINE) $(ENGINE_ARGUMENTS) --lua=lua-module-cache-manager.texluabc --lua-module-cache-file=$(JOBNAME).$(LUA_MODULE_CACHE_FILE_EXTENSION) --lua-module-cache-mode=$(LUA_MODULE_CACHE_MODE) $(EXTRA_LUA_MODULE_CACHE_MANAGER_ARGUMENTS) --jobname=$(JOBNAME) --output-format=$(OUTPUT_FORMAT) -- main.tex
+show: luamcm.texluabc main.tex
+	$(ENGINE) $(ENGINE_ARGUMENTS) --lua=luamcm.texluabc --lua-module-cache-file=$(JOBNAME).$(LUA_MODULE_CACHE_FILE_EXTENSION) --lua-module-cache-mode=$(LUA_MODULE_CACHE_MODE) $(EXTRA_LUA_MODULE_CACHE_MANAGER_ARGUMENTS) --jobname=$(JOBNAME) --output-format=$(OUTPUT_FORMAT) -- main.tex
 
 
 clean:

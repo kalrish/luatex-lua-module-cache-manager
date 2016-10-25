@@ -2,7 +2,7 @@
 Lua module cache manager for LuaTeX and cousins
 
 ## What is this? ##
-`lua-module-cache-manager.lua` is a Lua initialization script for LuaTeX and cousins that manages a cache for Lua modules. Lua modules are typically loaded from source. This implies parsing them and other steps, which incurs some cost. Lua implementations –including the ones bundled in LuaTeX and LuaJITTeX– internally turn the source code into something called 'bytecode'. Loading bytecode would thus be faster than loading source code, as it would skip a few steps. This system approaches the problem by caching all Lua modules loaded from source as bytecode in a single file that works similarly to LaTeX's aux file.
+`luamcm` is a Lua initialization script for LuaTeX and cousins that manages a cache for Lua modules. Lua modules are typically loaded from source. This implies parsing them and other steps, which incurs some cost. Lua implementations –including the ones bundled in LuaTeX and LuaJITTeX– internally turn the source code into something called 'bytecode'. Loading bytecode would thus be faster than loading source code, as it would skip a few steps. This system approaches the problem by caching all Lua modules loaded from source as bytecode in a single file that works similarly to LaTeX's aux file.
 
 ## Does it really help? ##
 A bit, ja, although I haven't properly benchmarked it. It can be more than half a second in my machine, which is nice for small documents that are compiled often.
@@ -10,24 +10,24 @@ A bit, ja, although I haven't properly benchmarked it. It can be more than half 
 ## How to use it? ##
 LuaTeX engines understand the `--lua` option. Pass the script path as its argument:
 
-    $  lualatex --interaction=nonstopmode --lua=lua-module-cache-manager.lua -- main.tex
+    $  lualatex --interaction=nonstopmode --lua=luamcm.lua -- main.tex
 
 Keep in mind, though, that the Lua initialization script is run *every time*. You should consider byte-compiling it itself; the command depends on the engine in use:
 
 * LuaTeX:
 
     ```
-    $  texluac -s -o lua-module-cache-manager.texluabc -- lua-module-cache-manager.lua
+    $  texluac -s -o luamcm.texluabc -- luamcm.lua
     ```
 * LuaJITTeX:
 
     ```
-    $  texluajitc -b lua-module-cache-manager.lua lua-module-cache-manager.texluabc
+    $  texluajitc -b luamcm.lua luamcm.texluabc
     ```
 
 Then:
 
-    $  lualatex --interaction=nonstopmode --lua=lua-module-cache-manager.texluabc -- main.tex
+    $  lualatex --interaction=nonstopmode --lua=luamcm.texluabc -- main.tex
 
 Lua initialization scripts have access to the arguments with which the LuaTeX engine was invoked. This script handles a few options:
 
@@ -39,7 +39,7 @@ option | type | description
 
 Pass them to the script as if they were normal LuaTeX options:
 
-    $  lualatex --interaction=nonstopmode --lua=lua-module-cache-manager.lua --lua-module-cache-file=main.lmc --lua-module-cache-mode=b --lua-module-cache-manager-verbose -- main.tex
+    $  lualatex --interaction=nonstopmode --lua=luamcm.lua --lua-module-cache-file=main.lmc --lua-module-cache-mode=b --lua-module-cache-manager-verbose -- main.tex
 
 ## Requirements ##
 * A "new enough" version of LuaTeX/LuaJITTeX.

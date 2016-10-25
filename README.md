@@ -1,8 +1,8 @@
 # luatex-lua-module-cache-manager
-Lua module cache manager for LuaTeX and cousins
+Lua module cache manager for LuaTeX engines
 
 ## What is this? ##
-`luamcm` is a Lua initialization script for LuaTeX and cousins that manages a cache for Lua modules. Lua modules are typically loaded from source. This implies parsing them and other steps, which incurs some cost. Lua implementations –including the ones bundled in LuaTeX and LuaJITTeX– internally turn the source code into something called 'bytecode'. Loading bytecode would thus be faster than loading source code, as it would skip a few steps. This system approaches the problem by caching all Lua modules loaded from source as bytecode in a single file that works similarly to LaTeX's aux file.
+`luamcm` is a Lua initialization script for LuaTeX engines that manages a cache for Lua modules. Lua modules are typically loaded from source. This implies parsing them and other steps, which incurs some cost. Lua implementations –including the ones bundled in LuaTeX and LuaJITTeX– internally turn the source code into something called 'bytecode'. Loading bytecode would thus be faster than loading source code, as it would skip a few steps. This system approaches the problem by caching all Lua modules loaded from source as bytecode in a single file that works similarly to LaTeX's aux file.
 
 ## Does it really help? ##
 A bit, ja, although I haven't properly benchmarked it. It can be more than half a second in my machine, which is nice for small documents that are compiled often.

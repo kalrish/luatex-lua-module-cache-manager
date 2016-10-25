@@ -1,3 +1,6 @@
+# The name of this file is `GNUmakefile' and not e.g. `Makefile' because it follows GNU Make and is not intended for other Make versions.
+
+
 .DEFAULT_GOAL := show
 .PHONY : show clean
 

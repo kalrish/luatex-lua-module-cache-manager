@@ -1,28 +1,51 @@
 # The name of this file is `GNUmakefile' and not e.g. `Makefile' because it follows GNU Make and is not intended for other Make versions.
 
 
-.DEFAULT_GOAL := show
-.PHONY : show clean
+##############################################################################
+#  Configuration - play with these variables
+##############################################################################
 
-
-# Configuration - touch these
-#  a LuaTeX-like engine, e.g. luatex or luajittex
+# Which engine to use
+#  examples: luatex, luajittex
 ENGINE := luatex
-#  the format to use - do set one only if you want or need to override the default (see below)
+
+# Format to use instead of the default
 #FORMAT := 
-#  note: on LuaTeX <0.89, the recorder feature (`--recorder`) causes segfaults; see [issue #2](https://github.com/kalrish/luatex-lua-module-cache-manager/issues/2), reported by Henry So
-ENGINE_ARGUMENTS := --interaction=nonstopmode --halt-on-error --file-line-error --recorder# --jiton
-#  may be 'b' (bytecode) or 't' (ASCII Lua source)
-LUA_MODULE_CACHE_MODE := b
-#  arguments meant for the Lua module cache manager
-EXTRA_LUA_MODULE_CACHE_MANAGER_ARGUMENTS := --lua-module-cache-manager-verbose
+
+# Additional arguments to pass to the engine
+#  e.g.: --jiton, --jithash=luajit20
+EXTRA_ENGINE_ARGUMENTS := 
+
+# Format of the Lua module cache
+#  Either 'b' (bytecode) or 't' (ASCII Lua source)
+LUA_MODULE_CACHE_FORMAT := b
+
+# Additional arguments meant for the Lua module cache manager
+#  e.g.: --lua-module-cache-manager-verbose
+EXTRA_LUA_MODULE_CACHE_MANAGER_ARGUMENTS := 
+
+# Format of the final document
+#  e.g.: dvi, pdf
 OUTPUT_FORMAT := pdf
 
-# Internal - don't touch these
-JOBNAME := main
-LUA_MODULE_CACHE_FILE_EXTENSION_t := lua
-LUA_MODULE_CACHE_FILE_EXTENSION_b := lmc
-LUA_MODULE_CACHE_FILE_EXTENSION := $(LUA_MODULE_CACHE_FILE_EXTENSION_$(LUA_MODULE_CACHE_MODE))
+##############################################################################
+
+
+# Tell Make to use Bash to execute recipes, as otherwise we would have very little guarantee on the syntax and features that are available and it's Bash I'm testing this against. Use another shell at your own.
+SHELL := bash
+
+ifeq ($(ENGINE),luatex)
+	TEXLUA_BYTECODE_EXTENSION := texluabc
+else ifeq ($(ENGINE),luajittex)
+	TEXLUA_BYTECODE_EXTENSION := texluajitbc
+endif
+
+ifeq ($(LUA_MODULE_CACHE_FORMAT),b)
+	LUA_MODULE_CACHE_FILE_EXTENSION := $(TEXLUA_BYTECODE_EXTENSION)
+else
+	LUA_MODULE_CACHE_FILE_EXTENSION := lua
+endif
+
 ifeq ($(FORMAT),)
 	ifeq ($(ENGINE),luatex)
 		FORMAT := lualatex
@@ -31,23 +54,23 @@ ifeq ($(FORMAT),)
 		FORMAT := luajitlatex
 	endif
 endif
-ifneq ($(FORMAT),)
-	ENGINE_ARGUMENTS += --fmt=$(FORMAT)
-endif
 
+JOBNAME := main
 
-# It might be needed to adjust this rule if the engine is neither LuaTeX nor LuaJITTeX
-luamcm.texluabc: luamcm.lua
+# Note: on LuaTeX <0.89, the recorder feature (`--recorder`) causes segfaults. See [issue #2](https://github.com/kalrish/luatex-lua-module-cache-manager/issues/2), reported by Henry So.
+ENGINE_ARGUMENTS := --interaction=nonstopmode --halt-on-error --recorder $(EXTRA_ENGINE_ARGUMENTS) --lua=luamcm.$(TEXLUA_BYTECODE_EXTENSION) --lua-module-cache-file=$(JOBNAME).$(LUA_MODULE_CACHE_FILE_EXTENSION) --lua-module-cache-format=$(LUA_MODULE_CACHE_FORMAT) $(EXTRA_LUA_MODULE_CACHE_MANAGER_ARGUMENTS) --jobname=$(JOBNAME) --fmt=$(FORMAT) --output-format=$(OUTPUT_FORMAT)
+
+%.$(TEXLUA_BYTECODE_EXTENSION) : %.lua
 ifeq ($(ENGINE),luatex)
-	texluac -s -o $@ -- $^
-endif
-ifeq ($(ENGINE),luajittex)
-	texluajitc -b $^ $@
+	texluac -s -o $@ -- $<
+else ifeq ($(ENGINE),luajittex)
+	texluajitc -bt raw $< $@
 endif
 
-show: luamcm.texluabc main.tex
-	$(ENGINE) $(ENGINE_ARGUMENTS) --lua=luamcm.texluabc --lua-module-cache-file=$(JOBNAME).$(LUA_MODULE_CACHE_FILE_EXTENSION) --lua-module-cache-mode=$(LUA_MODULE_CACHE_MODE) $(EXTRA_LUA_MODULE_CACHE_MANAGER_ARGUMENTS) --jobname=$(JOBNAME) --output-format=$(OUTPUT_FORMAT) -- main.tex
-
+show: luamcm.$(TEXLUA_BYTECODE_EXTENSION) main.tex
+	$(ENGINE) $(ENGINE_ARGUMENTS) -- main.tex
 
 clean:
-	rm -f -- *.texluabc main.log main.fls main.aux main.lua main.lmc main.pdf
+	rm -f -- luamcm.$(TEXLUA_BYTECODE_EXTENSION) main.log main.fls main.aux main.$(LUA_MODULE_CACHE_FILE_EXTENSION) main.$(OUTPUT_FORMAT)
+
+.PHONY : show clean

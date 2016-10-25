@@ -69,20 +69,20 @@ local i = 1
 		'b'	Lua bytecode
 		't'	Lua source (ASCII)
 ]]
-local cache_mode
-while arg[i] ~= nil and cache_mode == nil do
-	-- In the pattern, I have used ".+" instead of "." because, if I had gone for the single-byte option, an argument with more than one byte (like "--lua-module-cache-mode=bt") would have been silently skipped
-	cache_mode = string_match( arg[i] , "^%-%-lua%-module%-cache%-mode=(.+)$" )
+local cache_format
+while arg[i] ~= nil and cache_format == nil do
+	-- In the pattern, I have used ".+" instead of "." because, if I had gone for the single-byte option, an argument with more than one byte (like "--lua-module-cache-format=bt") would have been silently skipped
+	cache_format = string_match( arg[i] , "^%-%-lua%-module%-cache%-format=(.+)$" )
 	
 	i = i + 1
 end
-if not cache_mode then
-	-- No cache mode was specified; default to bytecode, as it should be faster
-	cache_mode = 'b'
+if not cache_format then
+	-- No cache format was specified; default to bytecode, as it should be faster
+	cache_format = 'b'
 else
-	if cache_mode ~= 'b' and cache_mode ~= 't' then
+	if cache_format ~= 'b' and cache_format ~= 't' then
 		-- We were told to use a cache format that we don't know
-		log_error( "the specified Lua module cache mode ('" , cache_mode , "') isn't valid; use either 'b' (bytecode; default) or 't' (text)" )
+		log_error( "the specified Lua module cache format ('" , cache_format , "') isn't valid; use either 'b' (bytecode; default) or 't' (text)" )
 		
 		argument_processing_error = true
 	end
@@ -118,11 +118,11 @@ if not cache_file_path then
 --	argument_processing_error = true
 	
 	-- Be as smart as we can
-	if cache_mode == 'b' then
+	if cache_format == 'b' then
 		-- 'texluabc' stands for "TeXLua ByteCode"
 		cache_file_path = "lua-module-cache.texluabc"
 	else
---		assert( cache_mode == 't' )
+--		assert( cache_format == 't' )
 		
 		cache_file_path = "lua-module-cache.lua"
 	end
@@ -348,7 +348,7 @@ local function update_cache_file()
 		]]
 		local stub
 		
-		if cache_mode == 'b' then
+		if cache_format == 'b' then
 			-- Instead of concatenating the strings of the table (either manually or with `table.concat`), we let `load` do that for us by using an index (`i`, you remember it from option parsing? We reuse it) and a small closure. This shall buy us some efficiency (those strings are really big)
 			-- Using `stub` here to save `load`'s first return value, which is the compiled chunk as a function on success or `nil` on error
 			i = 0
@@ -368,13 +368,13 @@ local function update_cache_file()
 				stub = false
 			end
 		else
---			assert( cache_mode == 't' )
+--			assert( cache_format == 't' )
 			
 			stub, err_msg = fd_chunk_or_id:write( table.unpack(cache_serialized_lua) )
 		end
 		
 		if stub then
-			log_info( "Lua module cache file (path: `" , cache_file_path , "', mode='" , cache_mode , "') written successfully" )
+			log_info( "Lua module cache file (path: `" , cache_file_path , "', format='" , cache_format , "') written successfully" )
 		elseif stub == false then
 			log_error( "nothing was written to the cache file due to errors in the process" )
 		else
@@ -388,13 +388,13 @@ local function update_cache_file()
 end
 
 
-fd_chunk_or_id, err_msg = loadfile( cache_file_path , cache_mode )
+fd_chunk_or_id, err_msg = loadfile( cache_file_path , cache_format )
 if fd_chunk_or_id then
-	log_info( "Lua module cache (path: `" , cache_file_path , "', mode='" , cache_mode , "') loaded successfully" )
+	log_info( "Lua module cache (path: `" , cache_file_path , "', format='" , cache_format , "') loaded successfully" )
 	
 	cache = fd_chunk_or_id()
 else
-	log_info( "couldn't load Lua module cache (path: `" , cache_file_path , "', mode='" , cache_mode , "'): " , err_msg )
+	log_info( "couldn't load Lua module cache (path: `" , cache_file_path , "', format='" , cache_format , "'): " , err_msg )
 	
 	-- Initialize the cache to an empty state
 	cache = {}

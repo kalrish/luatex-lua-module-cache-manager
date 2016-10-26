@@ -1,4 +1,4 @@
--- Cache variables (including functions) that are referred to more than once in locals, since they are faster to access than globals in the Lua implementations of LuaTeX and cousins.
+-- Cache variables (including functions) that are referred to more than once in locals, since they are faster to access than globals in the Lua implementations of LuaTeX engines.
 local arg = arg
 local load = load
 local type = type

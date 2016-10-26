@@ -6,11 +6,7 @@ local string_match = string.match
 local string_dump = string.dump
 local texio_write = texio.write
 local texio_write_nl = texio.write_nl
---[[
-	Up to Lua 5.1, it was `package.loaders`; from Lua 5.2 onwards, it's `package.searchers`.
-	
-	As of this writing, LuaTeX implements Lua 5.2 and thus offers `package.searchers`. LuaJITTeX, on the other hand, is stuck at 5.1, so we have to take care of the naming mismatch.
-]]
+-- Up to Lua 5.1, it was `package.loaders`; from Lua 5.2 onwards, it's `package.searchers`. LuaTeX implements the latter, LuaJITTeX the former.
 local package_searchers = package.searchers or package.loaders
 
 

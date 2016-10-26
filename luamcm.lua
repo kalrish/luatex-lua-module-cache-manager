@@ -219,14 +219,6 @@ local function hook_into_loader( searcher_index )
 			-- Signal that we'll have to update the cache file
 			cache_file_needs_to_be_updated = true
 			
-			--[[
-				Remember that our cache associated each module's name with its loader's bytecode; we dump the bytecode now
-				
-				We pass `true` as the second argument to `string.dump` to tell it to strip the symbols from the dumped bytecode. From the LuaTeX manual, section 3.2 (_LUA behaviour_):
-				
-					There is also a two-argument form of `string.dump()`. The second argument is a boolean which,
-if true, strips the symbols from the dumped data. This matches an extension made in `luajit`.
-			]]
 			cache[module_name] = string_dump(retval1,strip_module_loaders)
 			
 			log_info( "module '" , module_name , "' now cached" )

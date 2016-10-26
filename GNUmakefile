@@ -70,6 +70,6 @@ show: luamcm.$(TEXLUA_BYTECODE_EXTENSION) main.tex
 	$(ENGINE) $(ENGINE_ARGUMENTS) -- main.tex
 
 clean:
-	rm -f -- luamcm.$(TEXLUA_BYTECODE_EXTENSION) main.log main.fls main.aux main.$(LUA_MODULE_CACHE_FILE_EXTENSION) main.$(OUTPUT_FORMAT)
+	rm -f -- luamcm.$(TEXLUA_BYTECODE_EXTENSION) main.{log,fls,aux,$(LUA_MODULE_CACHE_FILE_EXTENSION),$(OUTPUT_FORMAT)}
 
 .PHONY : show clean

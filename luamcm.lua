@@ -91,6 +91,34 @@ end
 i = 1
 
 --[[
+	Whether to strip cached module loaders.
+]]
+local strip_module_loaders = true
+while arg[i] ~= nil do
+	if arg[i] == '--lua-module-cache-strip-loaders' then
+		strip_module_loaders = true
+	else
+		local capture = string_match( arg[i] , "^%-%-lua%-module%-cache%-strip%-loaders=(.+)$" )
+		if capture then
+			if capture == 'yes' then
+				strip_module_loaders = true
+			elseif capture == 'no' then
+				strip_module_loaders = false
+			else
+				log_error( "the argument given to --lua-module-cache-strip-loaders isn't valid; it must be either 'yes' or 'no'" )
+				
+				argument_processing_error = true
+			end
+		end
+	end
+	
+	i = i + 1
+end
+
+-- Reset the counter
+i = 1
+
+--[[
 	The path to the cache file.
 ]]
 local cache_file_path
@@ -210,7 +238,7 @@ local function hook_into_loader( searcher_index )
 					There is also a two-argument form of `string.dump()`. The second argument is a boolean which,
 if true, strips the symbols from the dumped data. This matches an extension made in `luajit`.
 			]]
-			cache[module_name] = string_dump(retval1,true)
+			cache[module_name] = string_dump(retval1,strip_module_loaders)
 			
 			log_info( "module '" , module_name , "' now cached" )
 		end

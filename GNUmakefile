@@ -60,12 +60,11 @@ JOBNAME := main
 # Note: on LuaTeX <0.89, the recorder feature (`--recorder`) causes segfaults. See [issue #2](https://github.com/kalrish/luatex-lua-module-cache-manager/issues/2), reported by Henry So.
 ENGINE_ARGUMENTS := --interaction=nonstopmode --halt-on-error --recorder $(EXTRA_ENGINE_ARGUMENTS) --lua=luamcm.$(TEXLUA_BYTECODE_EXTENSION) --lua-module-cache-file=$(JOBNAME).$(LUA_MODULE_CACHE_FILE_EXTENSION) --lua-module-cache-format=$(LUA_MODULE_CACHE_FORMAT) $(EXTRA_LUA_MODULE_CACHE_MANAGER_ARGUMENTS) --jobname=$(JOBNAME) --fmt=$(FORMAT) --output-format=$(OUTPUT_FORMAT)
 
-%.$(TEXLUA_BYTECODE_EXTENSION) : %.lua
-ifeq ($(ENGINE),luatex)
+%.texluabc : %.lua
 	texluac -s -o $@ -- $<
-else ifeq ($(ENGINE),luajittex)
+
+%.texluajitbc : %.lua
 	texluajitc -bt raw $< $@
-endif
 
 show: luamcm.$(TEXLUA_BYTECODE_EXTENSION) main.tex
 	$(ENGINE) $(ENGINE_ARGUMENTS) -- main.tex

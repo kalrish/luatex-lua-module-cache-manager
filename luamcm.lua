@@ -24,7 +24,7 @@ local function log_base( target , log_type_id , ... )
 	texio_write_nl( target , logging_identification )
 	texio_write( target , ": " , log_type_id , ": " )
 	texio_write( target , ... )
-	texio_write_nl( target , "" )
+	texio_write( target , "\n" )
 end
 
 -- See the description at section 9.5.1.1 (_`texio.write`_) of the LuaTeX manual

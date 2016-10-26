@@ -5,7 +5,7 @@ Lua module cache manager for LuaTeX engines
 `luamcm` is a LuaTeX Lua initialization script that manages a cache for Lua modules which works similarly to LaTeX's aux file. It speeds up document generation by about half a second in my machine, which is nice for small documents that are generated often.
 
 ## Context ##
-Lua modules are typically loaded from source. The Lua implementations bundled in LuaTeX and LuaJITTeX turn Lua source into bytecode prior to executing it, so it would be faster to load them in bytecode form directly.
+Lua modules are typically loaded from source. The Lua implementations bundled in LuaTeX and LuaJITTeX turn Lua source into bytecode prior to executing it, so it's faster to load them in bytecode form directly.
 
 ## How to use it ##
 Use the `--lua` option:

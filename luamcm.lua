@@ -4,6 +4,7 @@
 
 
 -- Cache variables (including functions) that are referred to more than once in locals, since they are faster to access than globals in the Lua implementations of LuaTeX and cousins.
+local arg = arg
 local load = load
 local type = type
 local string_match = string.match

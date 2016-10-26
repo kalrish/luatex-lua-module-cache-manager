@@ -18,8 +18,6 @@ local function log_base( target , log_type_id , ... )
 		Make sure that we start at the beginning of a new line. From the LuaTeX manual, section 9.5.1.2 (_`texio.write_nl`_):
 		
 			This function behaves like `texio.write`, but make sure that the given strings will appear at the beginning of a new line. You can pass a single empty string if you only want to move to the next line.
-		
-		FIXME: it adds an additional (unwanted) line break in some cases.
 	]]
 	texio_write_nl( target , logging_identification )
 	texio_write( target , ": " , log_type_id , ": " )

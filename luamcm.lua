@@ -1,8 +1,3 @@
---[[
-	Lua initialization script for LuaTeX and cousins that manages a cache for Lua modules.
-]]
-
-
 -- Cache variables (including functions) that are referred to more than once in locals, since they are faster to access than globals in the Lua implementations of LuaTeX and cousins.
 local arg = arg
 local load = load
@@ -22,9 +17,6 @@ local package_searchers = package.searchers or package.loaders
 -- Prepended to every logging message
 local logging_identification = "Lua module cache manager"
 
---[[
-	Base logging function.
-]]
 local function log_base( target , log_type_id , ... )
 	--[[
 		Make sure that we start at the beginning of a new line. From the LuaTeX manual, section 9.5.1.2 (_`texio.write_nl`_):
@@ -87,7 +79,6 @@ else
 	end
 end
 
--- Reset the counter
 i = 1
 
 --[[
@@ -115,7 +106,6 @@ while arg[i] ~= nil do
 	i = i + 1
 end
 
--- Reset the counter
 i = 1
 
 --[[
@@ -155,7 +145,6 @@ if not cache_file_path then
 	end
 end
 
--- Reset the counter
 i = 1
 
 --[[
@@ -263,7 +252,6 @@ hook_into_loader( 2 )
 	A searcher function that tries to load the required module from the cache.
 ]]
 local function try_to_load_module_from_cache( module_name )
-	-- Query the cache with the require module's name
 	local cache_entry = cache[module_name]
 	if cache_entry then
 		-- The module had been cached; try to load its loader's bytecode
@@ -340,7 +328,6 @@ local function luaserialize_cache()
 		t[i] = "]="
 		
 		i = i + 1
-		-- See above for the %q. Here it's not just being safe; it's necessary.
 		t[i] = string_format("%q",module_loader_bytecode)
 		
 		i = i + 1

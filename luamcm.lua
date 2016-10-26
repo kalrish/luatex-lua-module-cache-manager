@@ -48,6 +48,7 @@ end
 ]]
 local argument_processing_error = false
 local i = 1
+local argument = arg[1]
 
 --[[
 	The format of the cache file:
@@ -55,11 +56,12 @@ local i = 1
 		't'	Lua source (ASCII)
 ]]
 local cache_format
-while arg[i] ~= nil and cache_format == nil do
+while argument ~= nil and cache_format == nil do
 	-- In the pattern, I have used ".+" instead of "." because, if I had gone for the single-byte option, an argument with more than one byte (like "--lua-module-cache-format=bt") would have been silently skipped
-	cache_format = string_match( arg[i] , "^%-%-lua%-module%-cache%-format=(.+)$" )
+	cache_format = string_match( argument , "^%-%-lua%-module%-cache%-format=(.+)$" )
 	
 	i = i + 1
+	argument = arg[i]
 end
 if not cache_format then
 	-- No cache format was specified; default to bytecode, as it should be faster
@@ -74,16 +76,17 @@ else
 end
 
 i = 1
+argument = arg[1]
 
 --[[
 	Whether to strip cached module loaders.
 ]]
 local strip_module_loaders = true
-while arg[i] ~= nil do
-	if arg[i] == '--lua-module-cache-strip-loaders' then
+while argument ~= nil do
+	if argument == '--lua-module-cache-strip-loaders' then
 		strip_module_loaders = true
 	else
-		local capture = string_match( arg[i] , "^%-%-lua%-module%-cache%-strip%-loaders=(.+)$" )
+		local capture = string_match( argument , "^%-%-lua%-module%-cache%-strip%-loaders=(.+)$" )
 		if capture then
 			if capture == 'yes' then
 				strip_module_loaders = true
@@ -98,18 +101,21 @@ while arg[i] ~= nil do
 	end
 	
 	i = i + 1
+	argument = arg[i]
 end
 
 i = 1
+argument = arg[1]
 
 --[[
 	The path to the cache file.
 ]]
 local cache_file_path
-while arg[i] ~= nil and cache_file_path == nil do
-	cache_file_path = string_match( arg[i] , "^%-%-lua%-module%-cache%-file=(.+)$" )
+while argument ~= nil and cache_file_path == nil do
+	cache_file_path = string_match( argument , "^%-%-lua%-module%-cache%-file=(.+)$" )
 	
 	i = i + 1
+	argument = arg[1]
 end
 if not cache_file_path then
 	--[[
@@ -140,16 +146,18 @@ if not cache_file_path then
 end
 
 i = 1
+argument = arg[1]
 
 --[[
 	Logging verbosity.
 ]]
-while arg[i] ~= nil and log_target_info == nil do
-	if arg[i] == "--lua-module-cache-manager-verbose" then
+while argument ~= nil and log_target_info == nil do
+	if argument == "--lua-module-cache-manager-verbose" then
 		log_target_info = log_target_term_and_log
 	end
 	
 	i = i + 1
+	argument = arg[i]
 end
 if log_target_info == nil then
 	-- The default is that logging messages are logged only to the log file (not the terminal)

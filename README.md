@@ -33,13 +33,13 @@ Lua initialization scripts have access to the arguments with which the LuaTeX en
 
 option | description
 ------------ | ------------
-**--lua-module-cache-mode**=**b**\|t | Cache format:<table><tr><td>**t**</td><td>ASCII Lua source</td></tr><tr><td>**b**</td><td>Lua bytecode</td></tr></table>
+**--lua-module-cache-format**=**b**\|t | Cache format:<table><tr><td>**t**</td><td>ASCII Lua source</td></tr><tr><td>**b**</td><td>Lua bytecode</td></tr></table>
 **--lua-module-cache-file**=_/path/to/the/cache/file.extension_ | Its default value depends on the cache format:<table><tr><td>ASCII Lua source</td><td>lua-module-cache.lua</td></tr><tr><td>Bytecode</td><td>lua-module-cache.texluabc</td></tr></table>
 **--lua-module-cache-manager-verbose** | Whether merely informational logging messages should be outputted to the terminal (and not only to the log file).
 
 Pass them as if they were regular LuaTeX options:
 
-    $  lualatex --lua=luamcm.lua --lua-module-cache-file=main.lmc --lua-module-cache-mode=b --lua-module-cache-manager-verbose main.tex
+    $  lualatex --lua=luamcm.lua --lua-module-cache-file=main.lmc --lua-module-cache-format=b --lua-module-cache-manager-verbose main.tex
 
 ## Requirements ##
  -  a recent LuaTeX engine
